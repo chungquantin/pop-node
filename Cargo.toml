@@ -5,12 +5,12 @@ repository = "https://github.com/paritytech/polkadot-sdk.git"
 license = "GPL-3.0-only"
 
 [workspace]
-resolver = "2"
-
+exclude = [ "integration-tests" ]
 members = [
 	"node",
 	"runtime",
 ]
+resolver = "2"
 
 [profile.release]
 # Polkadot runtime requires unwinding.
