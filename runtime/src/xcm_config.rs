@@ -16,11 +16,10 @@ use xcm::latest::prelude::*;
 use xcm_builder::CurrencyAdapter;
 use xcm_builder::{
     AccountId32Aliases, AllowExplicitUnpaidExecutionFrom, AllowTopLevelPaidExecutionFrom,
-    DenyReserveTransferToRelayChain, DenyThenTry, EnsureXcmOrigin, FixedWeightBounds,
-    FrameTransactionalProcessor, IsConcrete, NativeAsset, ParentIsPreset, RelayChainAsNative,
-    SiblingParachainAsNative, SiblingParachainConvertsVia, SignedAccountId32AsNative,
-    SignedToAccountId32, SovereignSignedViaLocation, TakeWeightCredit, TrailingSetTopicAsId,
-    UsingComponents, WithComputedOrigin, WithUniqueTopic,
+    EnsureXcmOrigin, FixedWeightBounds, FrameTransactionalProcessor, IsConcrete, NativeAsset,
+    ParentIsPreset, RelayChainAsNative, SiblingParachainAsNative, SiblingParachainConvertsVia,
+    SignedAccountId32AsNative, SignedToAccountId32, SovereignSignedViaLocation, TakeWeightCredit,
+    TrailingSetTopicAsId, UsingComponents, WithComputedOrigin, WithUniqueTopic,
 };
 use xcm_executor::XcmExecutor;
 
@@ -103,23 +102,18 @@ impl Contains<Location> for ParentOrParentsExecutivePlurality {
     }
 }
 
-pub type Barrier = TrailingSetTopicAsId<
-    DenyThenTry<
-        DenyReserveTransferToRelayChain,
+pub type Barrier = TrailingSetTopicAsId<(
+    TakeWeightCredit,
+    WithComputedOrigin<
         (
-            TakeWeightCredit,
-            WithComputedOrigin<
-                (
-                    AllowTopLevelPaidExecutionFrom<Everything>,
-                    AllowExplicitUnpaidExecutionFrom<ParentOrParentsExecutivePlurality>,
-                    // ^^^ Parent and its exec plurality get free execution
-                ),
-                UniversalLocation,
-                ConstU32<8>,
-            >,
+            AllowTopLevelPaidExecutionFrom<Everything>,
+            AllowExplicitUnpaidExecutionFrom<ParentOrParentsExecutivePlurality>,
+            // ^^^ Parent and its exec plurality get free execution
         ),
+        UniversalLocation,
+        ConstU32<8>,
     >,
->;
+)>;
 
 pub struct XcmConfig;
 impl xcm_executor::Config for XcmConfig {
@@ -173,7 +167,7 @@ impl pallet_xcm::Config for Runtime {
     // ^ Disable dispatchable execute on the XCM pallet.
     // Needs to be `Everything` for local testing.
     type XcmExecutor = XcmExecutor<XcmConfig>;
-    type XcmTeleportFilter = Everything;
+    type XcmTeleportFilter = Nothing;
     type XcmReserveTransferFilter = Nothing;
     type Weigher = FixedWeightBounds<UnitWeightCost, RuntimeCall, MaxInstructions>;
     type UniversalLocation = UniversalLocation;

@@ -9,6 +9,7 @@ license = "Unlicense"
 repository = "https://github.com/r0gue-io/pop-node/"
 
 [workspace]
+exclude = [ "integration-tests" ]
 members = [
 	"node",
 	"runtime",
