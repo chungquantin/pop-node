@@ -6,7 +6,7 @@ pub use primitives::{CollectionId, ItemId};
 use scale::Encode;
 pub use types::*;
 
-type Result<T> = core::result::Result<T, PopApiError>;
+type Result<T> = core::result::Result<T, StatusCode>;
 
 /// Issue a new collection of non-fungible items
 pub fn create(

@@ -6,7 +6,7 @@ use crate::{
 use ink::prelude::vec::Vec;
 use primitives::AssetId;
 
-type Result<T> = core::result::Result<T, PopApiError>;
+type Result<T> = core::result::Result<T, StatusCode>;
 
 /// Local Fungibles:
 /// 1. PSP-22 Interface

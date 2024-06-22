@@ -1,6 +1,6 @@
 #![cfg_attr(not(feature = "std"), no_std, no_main)]
 
-use crate::error::PopApiError;
+use crate::error::{PopApiError, StatusCode};
 use ink::{prelude::vec::Vec, ChainExtensionInstance};
 use primitives::{cross_chain::*, storage_keys::*, AccountId as AccountId32};
 use scale::Encode;
@@ -19,7 +19,7 @@ type BlockNumber = <Environment as ink::env::Environment>::BlockNumber;
 type StringLimit = u32;
 type MaxTips = u32;
 
-pub type Result<T> = core::result::Result<T, PopApiError>;
+pub type Result<T> = core::result::Result<T, StatusCode>;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 #[cfg_attr(feature = "std", derive(scale_info::TypeInfo))]
@@ -40,7 +40,7 @@ impl ink::env::Environment for Environment {
 
 #[ink::chain_extension(extension = 909)]
 pub trait PopApi {
-	type ErrorCode = PopApiError;
+	type ErrorCode = StatusCode;
 
 	#[ink(function = 0)]
 	#[allow(private_interfaces)]

@@ -5,7 +5,7 @@ use ink::prelude::vec::Vec;
 use primitives::{AssetId, MultiAddress};
 use scale::{Compact, Encode};
 
-type Result<T> = core::result::Result<T, PopApiError>;
+type Result<T> = core::result::Result<T, StatusCode>;
 
 /// [Pallet Assets](https://github.com/paritytech/polkadot-sdk/blob/master/substrate/frame/assets/src/lib.rs):
 /// 1. Dispatchables

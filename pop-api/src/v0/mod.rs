@@ -1,6 +1,6 @@
 use crate::{
 	primitives::storage_keys::{ParachainSystemKeys, RuntimeStateKeys},
-	BlockNumber, PopApiError,
+	BlockNumber, StatusCode,
 };
 
 pub mod assets;
@@ -9,7 +9,7 @@ pub mod cross_chain;
 pub mod nfts;
 pub mod state;
 
-pub fn relay_chain_block_number() -> Result<BlockNumber, PopApiError> {
+pub fn relay_chain_block_number() -> Result<BlockNumber, StatusCode> {
 	state::read(RuntimeStateKeys::ParachainSystem(ParachainSystemKeys::LastRelayChainBlockNumber))
 }
 

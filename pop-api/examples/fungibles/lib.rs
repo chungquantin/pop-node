@@ -41,12 +41,12 @@ mod fungibles {
 
 		#[ink(message)]
 		pub fn total_supply(&self, id: AssetId) -> Result<Balance> {
-			api::total_supply(id)
+			api::total_supply(id).map_err(|e| e.into())
 		}
 
 		#[ink(message)]
 		pub fn balance_of(&self, id: AssetId, owner: AccountId32) -> Result<Balance> {
-			api::balance_of(id, owner)
+			api::balance_of(id, owner).map_err(|e| e.into())
 		}
 
 		#[ink(message)]
@@ -56,7 +56,7 @@ mod fungibles {
 			owner: AccountId32,
 			spender: AccountId32,
 		) -> Result<Balance> {
-			api::allowance(id, owner, spender)
+			api::allowance(id, owner, spender).map_err(|e| e.into())
 		}
 
 		#[ink(message)]
@@ -70,7 +70,7 @@ mod fungibles {
 
 			let result = api::transfer(id, to, value);
 			ink::env::debug_println!("Result: {:?}", result);
-			result
+			result.map_err(|e| e.into())
 		}
 
 		#[ink(message)]
@@ -94,7 +94,7 @@ mod fungibles {
 
 			let result = api::transfer_from(id, from, to, value, &data);
 			ink::env::debug_println!("Result: {:?}", result);
-			result
+			result.map_err(|e| e.into())
 		}
 
 		/// 2. PSP-22 Metadata Interface:
@@ -121,7 +121,7 @@ mod fungibles {
 			);
 			let result = api::create(id, admin, min_balance);
 			ink::env::debug_println!("Result: {:?}", result);
-			result
+			result.map_err(|e| e.into())
 		}
 
 		#[ink(message)]
@@ -141,12 +141,12 @@ mod fungibles {
 			);
 			let result = api::set_metadata(id, name, symbol, decimals);
 			ink::env::debug_println!("Result: {:?}", result);
-			result
+			result.map_err(|e| e.into())
 		}
 
 		#[ink(message)]
 		pub fn asset_exists(&self, id: AssetId) -> Result<bool> {
-			api::asset_exists(id)
+			api::asset_exists(id).map_err(|e| e.into())
 		}
 	}
 

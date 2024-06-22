@@ -5,6 +5,37 @@ use PopApiError::*;
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Encode, Decode)]
 #[cfg_attr(feature = "std", derive(scale_info::TypeInfo))]
+pub struct StatusCode(u32);
+
+impl FromStatusCode for StatusCode {
+	fn from_status_code(status_code: u32) -> Result<(), Self> {
+		match status_code {
+			0 => Ok(()),
+			_ => Err(StatusCode(status_code)),
+		}
+	}
+}
+
+impl From<scale::Error> for StatusCode {
+	fn from(_: scale::Error) -> Self {
+		DecodingFailed.into()
+	}
+}
+
+impl From<PopApiError> for StatusCode {
+	fn from(_value: PopApiError) -> Self {
+		todo!()
+	}
+}
+
+impl From<StatusCode> for PopApiError {
+	fn from(_value: StatusCode) -> Self {
+		todo!()
+	}
+}
+
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Encode, Decode)]
+#[cfg_attr(feature = "std", derive(scale_info::TypeInfo))]
 #[repr(u8)]
 pub enum PopApiError {
 	/// Some unknown error occurred. Go to the Pop API docs section `Pop API error`.
